@@ -18,18 +18,26 @@ package org.activiti.cloud.modeling;
 
 import org.activiti.cloud.org.config.EnableActivitiOrganization;
 import org.activiti.cloud.process.model.EnableActivitiProcessModel;
+import org.activiti.cloud.services.process.model.jpa.version.ExtendedJpaRepositoryFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Modeling apploication
+ * Modeling application
  */
 @SpringBootApplication
-@EnableActivitiOrganization
+//TODO: to remove EnableJpaRepositories and EntityScan from here as they should be in EnableActivitiProcessModel and EnableActivitiOrganization annotation (this is just a tempoarary fix).
+@EnableJpaRepositories(
+        basePackages = {"org.activiti.cloud.services.process.model.jpa", "org.activiti.cloud.services.organization.jpa"},
+        repositoryFactoryBeanClass = ExtendedJpaRepositoryFactoryBean.class)
+@EntityScan({"org.activiti.cloud.services.process.model.core.model", "org.activiti.cloud.organization.core.model"})
 @EnableActivitiProcessModel
+@EnableActivitiOrganization
 @ComponentScan("org.activiti.cloud")
 public class ModelingApplication {
 

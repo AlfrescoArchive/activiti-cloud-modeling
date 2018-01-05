@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.activiti.cloud</groupId>
-  <version>7-201712-EA-constantinc_1628_basic_starter-SNAPSHOT</version>
+  <version>7-201712-EA-cciobotaru_1521_contract_dependency-SNAPSHOT</version>
   <artifactId>activiti-cloud-modeling-backend</artifactId>
 
   <packaging>jar</packaging>
@@ -28,7 +28,7 @@
       <dependency>
         <groupId>org.activiti.cloud</groupId>
         <artifactId>activiti-cloud-dependencies</artifactId>
-        <version>${version.activiti.cloud}</version>
+        <version>7-201712-EA-cciobotaru_1521_contract_dependency-SNAPSHOT</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -39,10 +39,12 @@
     <dependency>
       <groupId>org.activiti.cloud</groupId>
       <artifactId>activiti-cloud-starter-process-model</artifactId>
+      <version>${version.activiti.cloud.process-model}</version>
     </dependency>
     <dependency>
       <groupId>org.activiti.cloud</groupId>
       <artifactId>activiti-cloud-starter-org</artifactId>
+      <version>${version.activiti.cloud.org}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.cloud</groupId>
@@ -65,6 +67,11 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-contract-verifier</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
