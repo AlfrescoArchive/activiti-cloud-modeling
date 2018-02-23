@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.activiti.cloud</groupId>
   <version>7-201802-EA-SNAPSHOT</version>
   <artifactId>activiti-cloud-modeling-backend</artifactId>
 
-  <packaging>jar</packaging>
   <name>Activiti Cloud :: Modeling Backend</name>
 
   <properties>
-    <version.activiti.cloud>7-201802-EA-SNAPSHOT</version.activiti.cloud>
+    <activiti-cloud.version>7-201802-EA-SNAPSHOT</activiti-cloud.version>
 
     <postgres.version>9.4.1212.jre7</postgres.version>
     <spring-boot-maven-plugin.version>2.0.0.M6</spring-boot-maven-plugin.version>
-    <docker.maven.plugin.version>0.21.0</docker.maven.plugin.version>
+    <docker-maven-plugin.version>0.21.0</docker-maven-plugin.version>
     <git-commit-id-plugin.version>2.2.3</git-commit-id-plugin.version>
-    <jgitflow.plugin.version>1.0-m5.1</jgitflow.plugin.version>
+    <jgitflow-maven-plugin.version>1.0-m5.1</jgitflow-maven-plugin.version>
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
   </properties>
 
@@ -25,7 +25,7 @@
       <dependency>
         <groupId>org.activiti.cloud</groupId>
         <artifactId>activiti-cloud-dependencies</artifactId>
-        <version>${version.activiti.cloud}</version>
+        <version>${activiti-cloud.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -36,12 +36,12 @@
     <repository>
       <id>activiti-enterprise-snapshots</id>
       <name>Alfresco internal repo</name>
-      <url>https://artifacts.alfresco.com/nexus/content/repositories/activiti-releases/</url>
+      <url>https://artifacts.alfresco.com/nexus/content/repositories/activiti-releases</url>
     </repository>
     <snapshotRepository>
       <id>activiti-enterprise-snapshots</id>
       <name>Activiti Snapshots</name>
-      <url>https://artifacts.alfresco.com/nexus/content/repositories/activiti-snapshots/</url>
+      <url>https://artifacts.alfresco.com/nexus/content/repositories/activiti-snapshots</url>
     </snapshotRepository>
   </distributionManagement>
 
@@ -99,7 +99,7 @@
     <repository> <!-- Using snapshot repo to temporarily keep keycloak adapter -->
       <id>activiti-snapshots</id>
       <name>Activiti Snapshots</name>
-      <url>https://artifacts.alfresco.com/nexus/content/repositories/activiti-snapshots/</url>
+      <url>https://artifacts.alfresco.com/nexus/content/repositories/activiti-snapshots</url>
       <releases>
         <enabled>false</enabled>
       </releases>
@@ -200,16 +200,15 @@
       <plugin>
         <groupId>external.atlassian.jgitflow</groupId>
         <artifactId>jgitflow-maven-plugin</artifactId>
-        <version>${jgitflow.plugin.version}</version>
+        <version>${jgitflow-maven-plugin.version}</version>
         <configuration>
           <enableFeatureVersions>true</enableFeatureVersions>
           <autoVersionSubmodules>true</autoVersionSubmodules>
           <allowSnapshots>true</allowSnapshots>
           <noDeploy>true</noDeploy>
-          <useReleaseProfile>true</useReleaseProfile> <!-- Do not generate javadoc when releaseing -->
+          <useReleaseProfile>true</useReleaseProfile> <!-- Do not generate javadoc when releasing -->
           <pushReleases>true</pushReleases>
           <squash>false</squash>
-          <versionTagPrefix>activiti-</versionTagPrefix>
           <keepBranch>true</keepBranch>
           <noFeatureBuild>true</noFeatureBuild>
           <noFeatureMerge>true</noFeatureMerge>
@@ -239,7 +238,7 @@
   </issueManagement>
   <ciManagement>
     <system>Travis</system>
-    <url>http://bamboo.ci.codehaus.org/browse/ACT</url>
+    <url>https://travis-ci/Activiti/activiti-cloud-modeling-backend</url>
   </ciManagement>
   <scm>
     <url>https://github.com/Activiti/activiti-cloud-modeling-backend</url>
