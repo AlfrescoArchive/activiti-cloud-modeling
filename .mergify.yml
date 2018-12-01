@@ -1,0 +1,9 @@
+pull_request_rules:
+  - name: automatic merge for Dependabot pull requests on master
+    conditions:
+      - base=master
+      - label=updatebot
+      - status-success=continuous-integration/jenkins/pr-head
+    actions:
+      merge:
+        method: merge
