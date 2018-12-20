@@ -1,6 +1,5 @@
 github:
   organisations:
-  - name: almerico
+  - name: activiti
     repositories:
     - name: activiti-cloud-example-chart
-      useSinglePullRequest: true

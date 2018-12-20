@@ -1,13 +1,20 @@
 pipeline {
     agent {
-      label "jenkins-maven"
+        kubernetes {
+              // Change the name of jenkins-maven label to be able to use yaml configuration snippet
+              label "maven-dind"
+              // Inherit from Jx Maven pod template
+              inheritFrom "maven"
+              // Add pod configuration to Jenkins builder pod template
+              yamlFile "maven-dind.yaml"
+        }
     }
     environment {
-      ORG               = 'almerico'
+      ORG               = 'activiti'
       APP_NAME          = 'activiti-cloud-modeling'
       CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
-      GITHUB_CHARTS_REPO    = "https://github.com/almerico/helmrepo.git"
-      GITHUB_HELM_REPO_URL = "https://almerico.github.io/helmrepo"
+      GITHUB_CHARTS_REPO    = "https://github.com/Activiti/activiti-cloud-helm-charts.git"
+      GITHUB_HELM_REPO_URL = "https://activiti.github.io/activiti-cloud-helm-charts/"
     }
     stages {
       stage('CI Build and push snapshot') {
@@ -25,11 +32,11 @@ pipeline {
             sh "mvn install"
             sh 'export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml'
 
-//           skip building docker image for now
-   //        sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:$PREVIEW_VERSION"
+            // skip building docker image for now
+            // sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:$PREVIEW_VERSION"
 
 
-             dir(".charts/$APP_NAME") {
+             dir("./charts/$APP_NAME") {
                sh "make build"
              }
           }
@@ -72,12 +79,11 @@ pipeline {
 
               // release the helm chart
               sh 'make release'
+              sh 'make github'  
               // promote through all 'Auto' promotion Environments
-//            sh 'jx promote -b --all-auto --timeout 1h --version \$(cat ../../VERSION) --no-wait'
+              // sh 'jx promote -b --all-auto --timeout 1h --version \$(cat ../../VERSION) --no-wait'
               sh 'jx step git credentials'
-              sh  'echo "cd ../.. && updatebot push-version --kind helm $APP_NAME \$(cat VERSION)"'
-
-              sh "cd ../.. && updatebot push-version --kind helm $APP_NAME \$(cat VERSION)"
+              sh 'make updatebot/push-version'
 
             }
           }

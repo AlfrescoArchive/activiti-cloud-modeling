@@ -1,19 +1,24 @@
-CHART_REPO := http://jenkins-x-chartmuseum:8080
-CURRENT=$(pwd)
+#CHART_REPO := http://jenkins-x-chartmuseum:8080
+CURRENT=$(shell pwd)
 NAME := activiti-cloud-modeling
+ORG := $(or $(ORG),activiti)
+APP_NAME := $(or $(APP_NAME),$(NAME))
 OS := $(shell uname)
 RELEASE_VERSION := $(shell cat ../../VERSION)
+RELEASE_ARTIFACT := $(or $(RELEASE_ARTIFACT),$(APP_NAME))
 
 GITHUB_CHARTS_REPO := $(or $(GITHUB_CHARTS_REPO),$(shell git config --get remote.origin.url))
 GITHUB_CHARTS_BRANCH := $(or $(GITHUB_CHARTS_BRANCH),gh-pages)
 
 build: clean
 	helm init --client-only
-	rm -rf requirements.lock
+	helm repo add charts_activiti https://activiti.github.io/activiti-cloud-charts/
+	helm repo add activiti-cloud-helm-charts https://activiti.github.io/activiti-cloud-helm-charts/
 	helm dependency build
 	helm lint
+	helm install . --name ${NAME} --debug --dry-run
 
-install: clean build
+install:  build
 	helm install . --name ${NAME}
 
 upgrade: clean build
@@ -23,16 +28,13 @@ delete:
 	helm delete --purge ${NAME}
 
 clean:
+	rm -rf requirements.lock
 	rm -rf charts
 	rm -rf ${NAME}*.tgz
 
-release: clean
-	helm init --client-only
-	helm dependency build
-	helm lint
+release: build
 	helm package .
-	curl --fail -u $(CHARTMUSEUM_CREDS_USR):$(CHARTMUSEUM_CREDS_PSW) --data-binary "@$(NAME)-$(shell sed -n 's/^version: //p' Chart.yaml).tgz" $(CHART_REPO)/api/charts
-	${MAKE} github
+#	curl  -u $(CHARTMUSEUM_CREDS_USR):$(CHARTMUSEUM_CREDS_PSW) --data-binary "@$(NAME)-$(shell sed -n 's/^version: //p' Chart.yaml).tgz" $(CHART_REPO)/api/charts
 #	rm -rf ${NAME}*.tgz%
 
 github:
@@ -53,7 +55,7 @@ ifeq ($(OS),Darwin)
 	sed -i "" -e "s/tag: .*/tag: $(RELEASE_VERSION)/" values.yaml
 else ifeq ($(OS),Linux)
 	sed -i -e "s/version:.*/version: $(RELEASE_VERSION)/" Chart.yaml
-	sed -i -e "s|repository: .*|repository: $(DOCKER_REGISTRY)/almerico/activiti-cloud-modeling|" values.yaml
+	sed -i -e "s|repository: .*|repository: $(DOCKER_REGISTRY)/$(ORG)/$(APP_NAME)|" values.yaml
 	sed -i -e "s/tag: .*/tag: $(RELEASE_VERSION)/" values.yaml
 else
 	echo "platfrom $(OS) not supported to release from"
@@ -63,3 +65,6 @@ endif
 	git commit -m "release $(RELEASE_VERSION)" --allow-empty # if first release then no verion update is performed
 	git tag -fa v$(RELEASE_VERSION) -m "Release version $(RELEASE_VERSION)"
 	git push origin v$(RELEASE_VERSION)
+
+updatebot/push-version: 
+	cd ../../ && updatebot push-version --kind helm $(RELEASE_ARTIFACT) $(RELEASE_VERSION)
