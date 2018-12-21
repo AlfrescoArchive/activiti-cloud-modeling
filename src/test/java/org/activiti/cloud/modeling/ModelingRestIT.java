@@ -51,6 +51,8 @@ public class ModelingRestIT {
         given()
                 .get("/v1/process-models")
                 .then().expect(status().isOk());
-        
+         given()
+                .get("/v1/models")
+                .then().expect(status().isOk());
     }
 }
