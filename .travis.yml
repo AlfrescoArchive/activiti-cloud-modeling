@@ -13,7 +13,7 @@ notifications:
     on_start: never     # options: [always|never|change] default: always
 
 before_script:
-  - echo MAVEN_OPTS=-Xmx1536m > ~/.mavenrc
+  - echo MAVEN_OPTS=-Xmx1536m -DincludeFrontend=true > ~/.mavenrc
 
 # Send coverage data
 after_success:
