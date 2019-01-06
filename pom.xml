@@ -137,7 +137,7 @@
     <profile>
       <id>include-frontend</id>
       <activation>
-        <activeByDefault>false</activeByDefault>
+        <activeByDefault>true</activeByDefault>
         <property>
           <name>includeFrontend</name>
           <value>true</value>
@@ -219,7 +219,6 @@
           </plugin>
         </plugins>
       </build>
-
     </profile>
   </profiles>
 </project>
