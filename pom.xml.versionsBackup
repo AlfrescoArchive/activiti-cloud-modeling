@@ -5,7 +5,7 @@
 
   <groupId>org.activiti.cloud.examples</groupId>
   <artifactId>activiti-cloud-modeling</artifactId>
-  <version>7.0.16</version>
+  <version>1.0.0</version>
   <name>Activiti Cloud :: Modeling</name>
   <url>http://activiti.org</url>
   <scm>
