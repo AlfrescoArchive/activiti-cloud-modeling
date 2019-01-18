@@ -1,0 +1,5 @@
++ make tag
+sed -i -e "s/version:.*/version: 7.0.28/" Chart.yaml
+#sed -i -e "s/tag: 7\.0\.[1-9]\d*/tag: 7.0.28/" values.yaml
+export RELEASE_VERSION=7.0.28 && perl -0777 -pi -e '$version = $ENV{'RELEASE_VERSION'};s/repository: activiti\/activiti-cloud-modeling\n\s*tag: ([0-9]|[a-zA-Z]|\.)*/repository: activiti\/activiti-cloud-modeling\n    tag: $version/' values.yaml
+git add --all
