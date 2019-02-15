@@ -44,12 +44,12 @@ pipeline {
       }
       stage('Build Release') {
         when {
-          branch 'master'
+          branch '7.0.x'
         }
         steps {
           container('maven') {
             // ensure we're not on a detached head
-            sh "git checkout master"
+            sh "git checkout 7.0.x"
             sh "git config --global credential.helper store"
 
             sh "jx step git credentials"
@@ -72,7 +72,7 @@ pipeline {
       }
       stage('Promote to Environments') {
         when {
-          branch 'master'
+          branch '7.0.x'
         }
         steps {
           container('maven') {
