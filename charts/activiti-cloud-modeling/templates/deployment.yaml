@@ -35,6 +35,10 @@ spec:
           value: "{{ .Values.service.backend.internalPort }}"
         - name: ACT_KEYCLOAK_URL
           value: {{ .Values.global.keycloak.url }}
+        - name: ACT_KEYCLOAK_REALM
+          value: {{ .Values.global.keycloak.realm }}
+        - name: ACT_KEYCLOAK_RESOURCE
+          value: {{ .Values.global.keycloak.resource }}
         - name: ACTIVITI_CLOUD_MODELING_URL
           value: "localhost:{{ .Values.service.backend.internalPort }}"
         imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
