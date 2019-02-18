@@ -15,6 +15,7 @@ global:
     name: keycloak
     realm: activiti
     client: activiti
+    resource: activiti
     service:
       type: http
       port: 80
