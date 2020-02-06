@@ -10,7 +10,7 @@
   </parent>
   <groupId>org.activiti.cloud.examples</groupId>
   <artifactId>activiti-cloud-modeling</artifactId>
-  <version>7.1.663</version>
+  <version>7.1.0.M6</version>
   <name>Activiti Cloud :: Modeling</name>
   <url>http://activiti.org</url>
   <scm>
@@ -20,7 +20,7 @@
     <tag>HEAD</tag>
   </scm>
   <properties>
-    <activiti-cloud-modeling-dependencies.version>7.1.377</activiti-cloud-modeling-dependencies.version>
+    <activiti-cloud-modeling-dependencies.version>7.1.0.M6</activiti-cloud-modeling-dependencies.version>
   </properties>
   <dependencyManagement>
     <dependencies>
